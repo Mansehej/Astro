@@ -1,0 +1,10 @@
+{
+    "apiKey": "AIzaSyA4v5Roov3paTD6dIT3xJoo7O-Ev9egwvA",
+    "authDomain": "astroneomy.firebaseapp.com",
+    "databaseURL": "https://astroneomy.firebaseio.com",
+    "projectId": "astroneomy",
+    "storageBucket": "astroneomy.appspot.com",
+    "messagingSenderId": "266119216788",
+    "appId": "1:266119216788:web:894bdbe2cd6aadc3d0be81",
+    "measurementId": "G-RF1SCZ8DHR"
+}
