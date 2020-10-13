@@ -8,7 +8,7 @@ const API_KEY = process.env.API_KEY;
 // This is because all middleware (CORS), serialization, deserialization will be automatically handled
 // And the only app that is going to call these functions is our firebase app.
 
-const BASE_URL = 'https://api.nasa.gov/neo/rest/v1/neo'
+const BASE_URL = 'https://api.nasa.gov/neo/rest/v1'
 
 exports.browse = functions.https.onCall(async (data, context) => {
 
@@ -17,7 +17,7 @@ exports.browse = functions.https.onCall(async (data, context) => {
     }
 
     try {
-        const neoWsResponse = await axios.get(`${BASE_URL}/browse`, {
+        const neoWsResponse = await axios.get(`${BASE_URL}/neo/browse`, {
             params: {
                 size: 10,
                 api_key: API_KEY
