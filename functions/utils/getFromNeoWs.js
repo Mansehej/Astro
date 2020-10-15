@@ -26,7 +26,7 @@ async function getFromNeoWs(endpoint, params) {
             }
         })
         const listOfNeos = neoWsResponse.data.near_earth_objects
-        return listOfNeos
+        return listOfNeos ? listOfNeos : [neoWsResponse.data]
     }
     catch(error) {
         throw new Error(error.message)
