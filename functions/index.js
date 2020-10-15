@@ -13,7 +13,7 @@ exports.browse = functions.https.onCall(async (data, context) => {
         return extractedList
     }
     catch (error) {
-        throw new functions.https.HttpsError('unknown', error.message)
+        throw new functions.https.HttpsError(error.message)
     }
 
 });
@@ -31,7 +31,7 @@ exports.dateRange = functions.https.onCall(async (data, context) => {
         return slicedAndSortedList
     }
     catch (error) {
-        throw new functions.https.HttpsError('unknown', error.message)
+        throw new functions.https.HttpsError(error.message)
     }
 
 })
@@ -46,7 +46,7 @@ exports.searchById = functions.https.onCall(async (data, context) => {
         return extractedList
     }
     catch (error) {
-        throw new functions.https.HttpsError('unknown', error.message)
+        throw new functions.https.HttpsError(error.message)
     }
 
 })

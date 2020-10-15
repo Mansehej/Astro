@@ -16,7 +16,7 @@ const BASE_URL = 'https://api.nasa.gov/neo/rest/v1'
 async function getFromNeoWs(endpoint, params) {
 
     if(!API_KEY) {
-        throw new Error("No NeoWs API Key provided")
+        throw new Error("unauthenticated")
     }
 
     try {
@@ -30,7 +30,16 @@ async function getFromNeoWs(endpoint, params) {
         return listOfNeos ? listOfNeos : [neoWsResponse.data]
     }
     catch(error) {
-        throw new Error(error.message)
+        var functionsErrorCode
+        switch(error.response.status) {
+            case 404: functionsErrorCode = "not-found"
+                break;
+            case 403: functionsErrorCode = "permission-denied"
+                break;
+            case 401: functionsErrorCode = "unauthenticated"
+                break;
+        }
+        throw new Error(functionsErrorCode)
     }
 }
 
