@@ -1,7 +1,8 @@
 const axios = require('axios');
+const functions = require('firebase-functions');
 
 // The NeoWs API key is passed as an environment variable
-const API_KEY = process.env.API_KEY;
+const API_KEY = functions.config().neows.key;
 const BASE_URL = 'https://api.nasa.gov/neo/rest/v1'
 
 /**
