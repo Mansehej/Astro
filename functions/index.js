@@ -35,3 +35,18 @@ exports.dateRange = functions.https.onCall(async (data, context) => {
     }
 
 })
+
+exports.searchById = functions.https.onCall(async (data, context) => {
+
+    const id = data.id
+
+    try {
+        const neoInformation = await getFromNeoWs(`/neo/${id}`, {})
+        const extractedList = extractFields(neoInformation)
+        return extractedList
+    }
+    catch (error) {
+        throw new functions.https.HttpsError('unknown', error.message)
+    }
+
+})
