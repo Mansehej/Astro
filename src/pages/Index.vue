@@ -1,19 +1,26 @@
 <template>
   <q-page class="flex flex-center">
-    <q-input
-      standout="bg-teal text-white"
-      v-model="asteroidId"
-      label="Search Asteroid ID"
-      bottom-slots
-      :error="!!error"
-      :error-message="error"
-    >
-      <template v-slot:append>
-        <q-btn flat @click="searchAsteroid"
-          ><q-icon clickable name="search"
-        /></q-btn>
-      </template>
-    </q-input>
+    <div class="column">
+      <q-input
+        standout="bg-teal text-white"
+        v-model="asteroidId"
+        label="Search Asteroid ID"
+        bottom-slots
+        :error="!!error"
+        :error-message="error"
+      >
+        <template v-slot:append>
+          <q-btn flat @click="searchAsteroid"
+            ><q-icon clickable name="search"
+          /></q-btn>
+        </template>
+      </q-input>
+      <div class="tex-subtitle text-center">OR</div>
+      <div class="row justify-around q-mt-md">
+        <q-btn @click="browseAsteroids">Browse</q-btn>
+        <q-btn>Browse by date</q-btn>
+      </div>
+    </div>
 
     <q-dialog v-model="isResultGenerated">
       <asteroid-card
@@ -62,6 +69,11 @@ export default {
             this.error = "Asteroid ID not found";
           }
         });
+    },
+    browseAsteroids() {
+      this.$router.push("/browse").catch((err) => {
+        console.error(err);
+      });
     },
   },
 };
