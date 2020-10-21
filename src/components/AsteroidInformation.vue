@@ -43,9 +43,8 @@
     <q-separator />
 
     <q-card-section>
-      <div class="column">
+      <div class="column" v-if="closeApproachData.length>0">
         <div class="text-bold text-center">Close Approaches</div>
-        <div class="">
           <q-list bordered class="rounded-borders">
             <q-expansion-item
               v-for="(closeApproach, index) in closeApproachData"
@@ -108,8 +107,8 @@
               </q-card>
             </q-expansion-item>
           </q-list>
-        </div>
       </div>
+      <div v-else class="text-red text-bold text-center">Close approach data unavailable</div>
     </q-card-section>
   </q-card>
 </template>
