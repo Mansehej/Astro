@@ -17,8 +17,8 @@
       </q-input>
       <div class="tex-subtitle text-center">OR</div>
       <div class="row justify-around q-mt-md">
-        <q-btn @click="browseAsteroids">Browse</q-btn>
-        <q-btn>Browse by date</q-btn>
+        <q-btn @click="browseAsteroids(null)">Browse</q-btn>
+        <q-btn @click="datePopup = true">Browse by date</q-btn>
       </div>
     </div>
 
@@ -32,6 +32,10 @@
         :isPotentiallyHazardous="asteroidInformation.is_potentially_hazardous"
       />
     </q-dialog>
+
+    <q-dialog v-model="datePopup">
+      <date-range-picker @range-picked="browseAsteroids" />
+    </q-dialog>
   </q-page>
 </template>
 
@@ -42,12 +46,14 @@ export default {
   name: "PageIndex",
   components: {
     "asteroid-card": require("../components/AsteroidInformation.vue").default,
+    "date-range-picker": require("../components/DateRangePicker.vue").default,
   },
   data() {
     return {
       asteroidId: "",
       asteroidInformation: null,
       isResultGenerated: false,
+      datePopup: false,
       error: null,
     };
   },
@@ -70,8 +76,9 @@ export default {
           }
         });
     },
-    browseAsteroids() {
-      this.$router.push("/browse").catch((err) => {
+    browseAsteroids(dateRange) {
+      dateRange = dateRange ?? {};
+      this.$router.push({ path: "browse", query: dateRange }).catch((err) => {
         console.error(err);
       });
     },
