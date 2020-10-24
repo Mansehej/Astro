@@ -16,6 +16,13 @@
       </div>
     </q-card-section>
 
+    <q-card-section @click="favoriteHandler" v-if="userDetails.name">
+      <div class="column items-center">
+        <q-icon v-if="isFavorite" size="lg" color="red" name="favorite" />
+        <q-icon v-else color="red" size="lg" name="favorite_border" />
+      </div>
+    </q-card-section>
+
     <q-card-section>
       <div class="column items-center text-capitalize">
         <div class="text-bold">Estimated Diameter</div>
@@ -114,6 +121,9 @@
 </template>
 
 <script>
+
+import { mapActions, mapState } from 'vuex'
+
 export default {
   props: {
     name: String,
@@ -129,10 +139,18 @@ export default {
         velocity: "kilometers_per_second",
         distance: "kilometers",
       },
+      isFavorite: false
     };
   },
-
+  async created() {
+    const favoritesMap = this.favorites
+    if(favoritesMap[this.id] === true) {
+      this.isFavorite = true;
+    }
+    this.loaded = true;
+  },
   computed: {
+    ...mapState('user', ['userDetails', 'favorites']),
     computedHazardousMessage() {
       const hazardousMessage = "potentially hazardous asteroid";
       return this.isPotentiallyHazardous
@@ -140,5 +158,20 @@ export default {
         : "non-" + hazardousMessage;
     },
   },
+  methods: {
+    ...mapActions('user', ['addFavorite', 'removeFavorite']),
+    favoriteHandler() {
+        if (!this.isFavorite) {
+          this.isFavorite = true;
+          this.addFavorite({ asteroidId: this.id })
+          this.$emit("favorited")
+        }
+        else {
+          this.isFavorite = false;
+          this.removeFavorite({ asteroidId: this.id })
+          this.$emit("unfavorited")
+        }
+      }
+  }
 };
 </script>
