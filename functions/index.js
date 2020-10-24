@@ -1,5 +1,5 @@
 const functions = require('firebase-functions');
-const { getFromNeoWs, extractFields, mergeNeoDates, sortByApproach, getFavoritesMap } = require("./utils")
+const { getFromNeoWs, extractFields, mergeNeoDates, sortByApproach, getFavoritesMap, addFavorite } = require("./utils")
 
 // Used HTTP Callable functions instead of HTTP requests
 // This is because all middleware (CORS), serialization, deserialization will be automatically handled
@@ -59,4 +59,18 @@ exports.getFavorites = functions.https.onCall(async (data, context) => {
 
     return await getFavoritesMap(context.auth.uid);
 
+})
+
+exports.addFavorite = functions.https.onCall(async (data, context) => {
+
+    if (!context.auth.uid) {
+        throw new functions.https.HttpsError("unauthenticated");
+    }
+
+    if (!data.asteroidId) {
+        throw new functions.https.HttpsError("invalid_argument");
+    }
+
+    return await addFavorite( context.auth.uid, data.asteroidId)
+    
 })
