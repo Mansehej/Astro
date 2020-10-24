@@ -1,22 +1,67 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
+  <q-layout view="hHh lpR fFf" class="bg-grey-1">
+    <q-header elevated class="bg-white text-grey-8 q-py-xs" height-hint="58">
       <q-toolbar>
         <q-btn
           flat
           dense
           round
-          icon="menu"
-          aria-label="Menu"
           @click="leftDrawerOpen = !leftDrawerOpen"
+          aria-label="Menu"
+          icon="menu"
         />
 
-        <q-toolbar-title>
-          Quasar App
-        </q-toolbar-title>
+        <q-btn flat no-caps no-wrap class="q-ml-xs" to="/">
+          <q-icon :name="logo" color="red" size="28px" />
+          <q-toolbar-title shrink class="text-weight-bold">
+            Asteronomy
+          </q-toolbar-title>
+        </q-btn>
 
-        <q-btn flat v-if="!userDetails.uid" to="/auth">Login</q-btn>
-        <q-btn flat v-else no-caps @click="logoutUser">Logout<br/>{{userDetails.name}}</q-btn>
+        <q-space />
+
+        <div class="q-gutter-sm row items-center no-wrap">
+          <q-btn round flat v-if="userDetails.uid">
+            <q-avatar v-if="userDetails.photo" size="26px">
+              <img :src="userDetails.photo" />
+            </q-avatar>
+            <q-icon v-else size="26px" name="face"/>
+            <q-menu>
+              <div class="row no-wrap q-pa-sm">
+                <div class="column justify-center">
+                  <q-btn
+                    class="q-ma-sm"
+                    v-close-popup
+                    label="Favorites"
+                    to="/favorites"
+                  />
+                  <q-btn
+                    class="q-ma-sm"
+                    v-close-popup
+                    label="Logout"
+                    color="red"
+                    @click="logoutUser"
+                  />
+                </div>
+
+                <q-separator vertical inset class="q-mx-sm" />
+
+                <div class="column items-center">
+                  <q-avatar v-if="userDetails.photo" size="72px">
+                    <img :src="userDetails.photo" />
+                  </q-avatar>
+
+                  <q-icon v-else size="72px" name="face"/>
+
+                  <div class="text-subtitle1 q-mt-md q-mb-xs">
+                    {{ userDetails.name }}
+                  </div>
+                </div>
+              </div>
+            </q-menu>
+          </q-btn>
+          <q-btn v-else to="/auth"> Login </q-btn>
+        </div>
       </q-toolbar>
     </q-header>
 
@@ -25,21 +70,32 @@
       show-if-above
       bordered
       content-class="bg-grey-1"
+      :width="240"
     >
-      <q-list>
-        <q-item-label
-          header
-          class="text-grey-8"
-        >
-          Essential Links
-        </q-item-label>
-        <EssentialLink
-          v-for="link in essentialLinks"
-          :key="link.title"
-          v-bind="link"
-        />
-      </q-list>
+      <q-scroll-area class="fit">
+        <q-list padding>
+          <q-item> <asteroid-search :dense="true" /></q-item>
+          <q-item
+            v-for="link in links"
+            :key="link.text"
+            v-ripple
+            clickable
+            @click="link.onClick"
+          >
+            <q-item-section avatar>
+              <q-icon color="grey" :name="link.icon" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>{{ link.title }}</q-item-label>
+            </q-item-section>
+          </q-item>
+        </q-list>
+      </q-scroll-area>
     </q-drawer>
+
+    <q-dialog v-model="datePopup">
+      <date-range-picker @range-picked="browseAsteroids" />
+    </q-dialog>
 
     <q-page-container>
       <router-view />
@@ -48,68 +104,50 @@
 </template>
 
 <script>
-import EssentialLink from 'components/EssentialLink.vue'
-import {mapState, mapActions} from 'vuex'
-
-const linksData = [
-  {
-    title: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev'
-  },
-  {
-    title: 'Github',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework'
-  },
-  {
-    title: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev'
-  },
-  {
-    title: 'Forum',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev'
-  },
-  {
-    title: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev'
-  },
-  {
-    title: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev'
-  },
-  {
-    title: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev'
-  }
-];
+import EssentialLink from "components/EssentialLink.vue";
+import { mapState, mapActions } from "vuex";
 
 export default {
-  name: 'MainLayout',
-  components: { EssentialLink },
-  data () {
+  name: "MainLayout",
+  components: {
+    "asteroid-search": require("../components/AsteroidSearch.vue").default,
+    "date-range-picker": require("../components/DateRangePicker.vue").default,
+  },
+  data() {
+    const vm = this;
     return {
       leftDrawerOpen: false,
-      essentialLinks: linksData
-    }
+      datePopup: false,
+      links: [
+        {
+          title: "Browse",
+          icon: "public",
+          onClick() {
+            vm.browseAsteroids(null);
+          },
+        },
+        {
+          title: "Browse by date",
+          icon: "date_range",
+          onClick() {
+            vm.datePopup = true;
+          },
+        },
+      ],
+      logo: null,
+    };
   },
   computed: {
-    ...mapState('user', ['userDetails'])
+    ...mapState("user", ["userDetails"]),
   },
   methods: {
-    ...mapActions('user', ['logoutUser'])
-  }
-}
+    ...mapActions("user", ["logoutUser"]),
+    browseAsteroids(dateRange) {
+      dateRange = dateRange ?? {};
+      this.$router.push({ path: "browse", query: dateRange }).catch((err) => {
+        console.error(err);
+      });
+    },
+  },
+};
 </script>
