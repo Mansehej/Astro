@@ -20,6 +20,7 @@
         <q-btn @click="browseAsteroids(null)">Browse</q-btn>
         <q-btn @click="datePopup = true">Browse by date</q-btn>
       </div>
+      <q-btn v-if="userDetails.uid" to="/favorites" class="q-mt-md">Favorites</q-btn>
     </div>
 
     <q-dialog v-model="isResultGenerated">
@@ -41,6 +42,8 @@
 
 <script>
 import { firebaseFunctions } from "boot/firebase";
+import { mapState } from "vuex";
+
 
 export default {
   name: "PageIndex",
@@ -56,6 +59,9 @@ export default {
       datePopup: false,
       error: null,
     };
+  },
+   computed: {
+    ...mapState("user", ["userDetails"]),
   },
   methods: {
     searchAsteroid() {
