@@ -9,3 +9,7 @@ export function setFavorites(state, payload) {
 export function addFavorite(state, payload) {
     state.favorites[payload] = true;
 }
+
+export function removeFavorite(state, payload) {
+    state.favorites[payload] = false;
+}

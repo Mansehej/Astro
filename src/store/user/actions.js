@@ -83,3 +83,15 @@ export function addFavorite({ commit }, payload) {
             return { success: false, message: error.message }
         })
 }
+
+export function removeFavorite({ commit }, payload) {
+    const favoritesRemover = firebaseFunctions.httpsCallable("removeFavorite");
+    commit('removeFavorite', payload.asteroidId)
+    return favoritesRemover({ asteroidId: payload.asteroidId })
+        .then(function (result) {
+            return { success: true };
+        })
+        .catch(function (error) {
+            return { success: false, message: error.message }
+        })
+}
