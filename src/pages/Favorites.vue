@@ -2,7 +2,7 @@
   <q-page class="flex flex-center" v-if="loaded">
     <div style="min-width: 30vw" v-if="!!userDetails.uid">
       <h2 class="text-center q-mb-lg">Favorites</h2>
-      <q-list bordered separator>
+      <q-list v-if="asteroidList.length>0" bordered separator>
         <q-item
           clickable
           v-ripple
@@ -22,6 +22,8 @@
           </q-item-section>
         </q-item>
       </q-list>
+      <div v-else class="text-center text-caption2">
+        <q-separator/> <br/> Your favorite list is empty. <br/> Come on, asteroids deserve love too!</div>
     </div>
     <div v-else>
       Login to save favorites
