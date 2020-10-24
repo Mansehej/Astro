@@ -7,6 +7,7 @@
       bottom-slots
       :error="!!error"
       :error-message="error"
+      :dense="dense"
     >
       <template v-slot:append>
         <q-btn flat @click="searchAsteroid"
@@ -34,6 +35,12 @@ import { firebaseFunctions } from "boot/firebase";
 export default {
   components: {
     "asteroid-card": require("../components/AsteroidInformation.vue").default,
+  },
+  props: {
+      dense: {
+          type: Boolean,
+          default: false
+      }
   },
   data() {
     return {
