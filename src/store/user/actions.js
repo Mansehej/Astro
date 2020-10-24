@@ -34,6 +34,11 @@ export function loginUser({ }, payload) {
         });
 }
 
+
+export function logoutUser({}, payload) {
+    return firebaseAuth.signOut();
+}
+
 export function handleAuthStateChanged({ commit }, payload) {
     firebaseAuth.onAuthStateChanged(user => {
         if (user) {
