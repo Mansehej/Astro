@@ -71,9 +71,9 @@ export function getFavorites({ commit }, payload) {
         });
 }
 
-export function addFavorite({ }, payload) {
+export function addFavorite({ commit }, payload) {
     const favoritesGetter = firebaseFunctions.httpsCallable("addFavorite");
-    console.log("Adding");
+    commit('addFavorite', payload.asteroidId)
     return favoritesGetter({ asteroidId: payload.asteroidId })
         .then(function (result) {
             return { success: true };

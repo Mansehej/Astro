@@ -3,6 +3,9 @@ export function setUserDetails (state, payload) {
 }   
 
 export function setFavorites(state, payload) {
-    console.log("setting favorites");
     state.favorites = payload;
+}
+
+export function addFavorite(state, payload) {
+    state.favorites[payload] = true;
 }
