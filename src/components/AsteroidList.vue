@@ -12,8 +12,8 @@
           <q-item-label caption>ID: {{ asteroid.id }}</q-item-label>
         </q-item-section>
 
-        <q-item-section avatar @click="favoriteHandler(asteroid.isFavorite, asteroid.id)" v-if="userDetails.name">
-          <q-icon v-if="asteroid.isFavorite"color="red" name="favorite" />
+        <q-item-section avatar @click="favoriteHandler(index)" v-if="userDetails.name">
+          <q-icon v-if="asteroid.isFavorite" color="red" name="favorite" />
           <q-icon v-else color="red" name="favorite_border" />
         </q-item-section>
       </q-item>
@@ -68,9 +68,12 @@ export default {
           this.selectedAsteroid = this.asteroidList[index];
           this.isAsteroidSelected = true;
       },
-      favoriteHandler(isFavorite, id) {
-        if (!isFavorite) {
-          this.addFavorite({ asteroidId: id })
+      favoriteHandler(index) {
+        const asteroid = this.asteroidList[index];
+        if (!asteroid.isFavorite) {
+          asteroid.isFavorite = true;
+          this.$set(this.asteroidList, index, asteroid)
+          this.addFavorite({ asteroidId: asteroid.id })
         }
       }
   }
