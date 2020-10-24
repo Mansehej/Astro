@@ -27,6 +27,8 @@
         :estimatedDiameter="selectedAsteroid.estimated_diameter"
         :closeApproachData="selectedAsteroid.close_approach_data"
         :isPotentiallyHazardous="selectedAsteroid.is_potentially_hazardous"
+        @favorited="addFavoriteHandler(selectedAsteroid.index, selectedAsteroid)"
+        @unfavorited="removeFavoriteHandler(selectedAsteroid.index, selectedAsteroid)"
       />
     </q-dialog>
   </div>
@@ -66,20 +68,27 @@ export default {
     ...mapActions('user', ['addFavorite', 'removeFavorite']),
       openAsteroidInformation(index) {
           this.selectedAsteroid = this.asteroidList[index];
+          this.selectedAsteroid.index = index;
           this.isAsteroidSelected = true;
       },
       favoriteHandler(index) {
         const asteroid = this.asteroidList[index];
         if (!asteroid.isFavorite) {
+          this.addFavoriteHandler(index, asteroid)
+        }
+        else {
+          this.removeFavoriteHandler(index, asteroid)
+        }
+      },
+      addFavoriteHandler(index, asteroid) {
           asteroid.isFavorite = true;
           this.$set(this.asteroidList, index, asteroid)
           this.addFavorite({ asteroidId: asteroid.id })
-        }
-        else {
+      },
+      removeFavoriteHandler(index, asteroid) {
           asteroid.isFavorite = false;
           this.$set(this.asteroidList, index, asteroid)
           this.removeFavorite({ asteroidId: asteroid.id })
-        }
       }
   }
 };
