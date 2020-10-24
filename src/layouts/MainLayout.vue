@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="hHh lpR fFf" class="bg-grey-1">
+  <q-layout view="hHh lpR fFf" class="bg-grey-2">
     <q-header elevated class="bg-white text-grey-8 q-py-xs" height-hint="58">
       <q-toolbar>
         <q-btn
@@ -69,7 +69,7 @@
       v-model="leftDrawerOpen"
       show-if-above
       bordered
-      content-class="bg-grey-1"
+      content-class="bg-dark"
       :width="240"
     >
       <q-scroll-area class="fit">
@@ -98,7 +98,7 @@
     </q-dialog>
 
     <q-page-container>
-      <router-view />
+      <router-view class="bg-black"/>
     </q-page-container>
   </q-layout>
 </template>

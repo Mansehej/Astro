@@ -1,6 +1,6 @@
 <template>
   <div v-if="loaded">
-    <q-list bordered separator>
+    <q-list separator dark>
       <q-item
         clickable
         v-ripple

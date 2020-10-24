@@ -1,5 +1,5 @@
 <template>
-  <q-card class="my-card" flat bordered>
+  <q-card class="my-card bg-dark text-info">
     <q-card-section>
       <div class="column items-center">
         <div class="text-overline">Asteroid ID {{ id }}</div>
@@ -36,7 +36,7 @@
           v-model="units.diameter"
           no-caps
           indicator-color="transparent"
-          active-color="black"
+          active-color="info"
           class="text-grey-6"
         >
           <q-tab name="kilometers" label="Kilometers" />
@@ -72,7 +72,7 @@
                       v-model="units.velocity"
                       no-caps
                       indicator-color="transparent"
-                      active-color="black"
+                      active-color="info"
                       class="text-grey-6"
                     >
                       <q-tab
@@ -101,7 +101,7 @@
                       v-model="units.distance"
                       no-caps
                       indicator-color="transparent"
-                      active-color="black"
+                      active-color="info"
                       class="text-grey-6"
                     >
                       <q-tab name="astronomical" label="Astronomical" />

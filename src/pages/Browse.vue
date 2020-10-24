@@ -1,9 +1,8 @@
 <template>
   <q-page class="flex flex-center">
     <div v-if="loaded" style="min-width: 30vw">
-      <q-toolbar class="bg-primary text-white shadow-2">
-        <q-toolbar-title>Browse</q-toolbar-title>
-      </q-toolbar>
+      <h2 class="text-center q-mb-sm">Browse</h2>
+      <div class="text-caption2 text-center q-mb-md" v-if="isDateBrowse">{{query.from}} to {{query.to}}</div>
       <asteroid-list :asteroidList="asteroidList" />
     </div>
     <div v-if="error" class="text-red text-bold text-center">
@@ -26,6 +25,8 @@ export default {
       asteroidList: [],
       error: false,
       errorMessage: "There was an error. Please try again later.",
+      isDateBrowse: false,
+      query: null
     };
   },
   created() {
@@ -35,6 +36,7 @@ export default {
     } else {
       this.populateFromDateRange(query.from, query.to);
     }
+    this.query = query
   },
   methods: {
     populateFromBrowse() {
@@ -51,6 +53,7 @@ export default {
         });
     },
     populateFromDateRange(startDate, endDate) {
+      this.isDateBrowse = true
       const vm = this;
       const dateFunction = firebaseFunctions.httpsCallable("dateRange");
       const dateDifference = this.calculateDateDifference(startDate, endDate);

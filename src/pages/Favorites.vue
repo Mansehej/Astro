@@ -1,9 +1,7 @@
 <template>
   <q-page class="flex flex-center" v-if="loaded">
     <div style="min-width: 30vw" v-if="!!userDetails.uid">
-      <q-toolbar class="bg-primary text-white shadow-2">
-        <q-toolbar-title>Favorites</q-toolbar-title>
-      </q-toolbar>
+      <h2 class="text-center q-mb-lg">Favorites</h2>
       <q-list bordered separator>
         <q-item
           clickable

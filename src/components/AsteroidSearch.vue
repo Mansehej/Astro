@@ -1,7 +1,7 @@
 <template>
   <div>
     <q-input
-      standout="bg-teal text-white"
+      standout="bg-info-light text-primary"
       v-model="asteroidId"
       label="Search Asteroid ID"
       bottom-slots

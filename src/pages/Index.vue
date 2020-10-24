@@ -1,13 +1,16 @@
 <template>
   <q-page class="flex flex-center">
     <div class="column">
-      <asteroid-search/>
+      <h2>Asteronomy</h2>
+      <asteroid-search />
       <div class="tex-subtitle text-center">OR</div>
-      <div class="row justify-around q-mt-md">
-        <q-btn @click="browseAsteroids(null)">Browse</q-btn>
-        <q-btn @click="datePopup = true">Browse by date</q-btn>
+      <div class="row justify-center q-mt-md">
+        <q-btn color="primary" class="q-ma-sm" @click="browseAsteroids(null)">Browse</q-btn>
+        <q-btn color="primary" class="q-ma-sm" @click="datePopup = true">Browse by date</q-btn>
       </div>
-      <q-btn v-if="userDetails.uid" to="/favorites" class="q-mt-md">Favorites</q-btn>
+      <q-btn color="red" v-if="userDetails.uid" to="/favorites" class="q-mt-md"
+        >Favorites</q-btn
+      >
     </div>
     <q-dialog v-model="datePopup">
       <date-range-picker @range-picked="browseAsteroids" />
@@ -17,7 +20,6 @@
 
 <script>
 import { mapState } from "vuex";
-
 
 export default {
   name: "PageIndex",
@@ -34,7 +36,7 @@ export default {
       error: null,
     };
   },
-   computed: {
+  computed: {
     ...mapState("user", ["userDetails"]),
   },
   methods: {
