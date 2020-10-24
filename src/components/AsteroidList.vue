@@ -48,10 +48,10 @@ export default {
       }
   },
   computed: {
-    ...mapState('user', ['userDetails'])
+    ...mapState('user', ['userDetails', 'favorites'])
   },
   async created() {
-    const favoritesMap = await this.getFavorites();
+    const favoritesMap = this.favorites
     this.asteroidList.forEach(asteroid => {
       if(favoritesMap[asteroid.id] === true) {
         asteroid.isFavorite = true;
@@ -63,7 +63,7 @@ export default {
     "asteroid-card": require("./AsteroidInformation.vue").default,
   },
   methods: {
-    ...mapActions('user', ['getFavorites', 'addFavorite']),
+    ...mapActions('user', ['addFavorite']),
       openAsteroidInformation(index) {
           this.selectedAsteroid = this.asteroidList[index];
           this.isAsteroidSelected = true;

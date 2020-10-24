@@ -39,7 +39,7 @@ export function logoutUser({}, payload) {
     return firebaseAuth.signOut();
 }
 
-export function handleAuthStateChanged({ commit }, payload) {
+export function handleAuthStateChanged({ commit, dispatch }, payload) {
     firebaseAuth.onAuthStateChanged(user => {
         if (user) {
             commit('setUserDetails', {
@@ -48,6 +48,7 @@ export function handleAuthStateChanged({ commit }, payload) {
                 uid: user.uid,
                 photo: user.photoURL
             })
+            dispatch("getFavorites")
             this.$router.push('/')
         }
         else {
@@ -57,11 +58,13 @@ export function handleAuthStateChanged({ commit }, payload) {
     })
 }
 
-export function getFavorites({}, payload) {
+export function getFavorites({ commit }, payload) {
     const favoritesGetter = firebaseFunctions.httpsCallable("getFavorites");
     return favoritesGetter({})
         .then(function (result) {
-         return result.data;
+            const favorites = result.data ?? {};
+            commit('setFavorites', favorites)
+            return favorites;
         })
         .catch((error) => {
           return {}
