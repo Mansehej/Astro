@@ -53,6 +53,7 @@ export function handleAuthStateChanged({ commit, dispatch }, payload) {
         }
         else {
             commit('setUserDetails', {})
+            commit('setFavorites', {})
             this.$router.replace('/auth')
         }
     })
