@@ -31,5 +31,23 @@ async function addFavorite(uid, asteroidId) {
         })
 }
 
+async function removeFavorite(uid, asteroidId) {
+
+    const mapToUpdate = {
+        favorites: {}
+    };
+
+    mapToUpdate.favorites[asteroidId] = false
+
+    return db.collection('users').doc(uid).set(mapToUpdate, { merge: true })
+        .then(() => {
+            return true
+        })
+        .catch(error => {
+            return error.message
+        })
+}
+
 exports.getFavoritesMap = getFavoritesMap
 exports.addFavorite = addFavorite
+exports.removeFavorite = removeFavorite
