@@ -63,7 +63,7 @@ export default {
     "asteroid-card": require("./AsteroidInformation.vue").default,
   },
   methods: {
-    ...mapActions('user', ['addFavorite']),
+    ...mapActions('user', ['addFavorite', 'removeFavorite']),
       openAsteroidInformation(index) {
           this.selectedAsteroid = this.asteroidList[index];
           this.isAsteroidSelected = true;
@@ -74,6 +74,11 @@ export default {
           asteroid.isFavorite = true;
           this.$set(this.asteroidList, index, asteroid)
           this.addFavorite({ asteroidId: asteroid.id })
+        }
+        else {
+          asteroid.isFavorite = false;
+          this.$set(this.asteroidList, index, asteroid)
+          this.removeFavorite({ asteroidId: asteroid.id })
         }
       }
   }
