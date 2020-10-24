@@ -48,9 +48,11 @@ export function handleAuthStateChanged({ commit }, payload) {
                 uid: user.uid,
                 photo: user.photoURL
             })
+            this.$router.push('/')
         }
         else {
             commit('setUserDetails', {})
+            this.$router.replace('/auth')
         }
     })
 }
