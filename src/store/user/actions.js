@@ -33,3 +33,19 @@ export function loginUser({ }, payload) {
             return { success: false, message: errorText }
         });
 }
+
+export function handleAuthStateChanged({ commit }, payload) {
+    firebaseAuth.onAuthStateChanged(user => {
+        if (user) {
+            commit('setUserDetails', {
+                name: user.displayName,
+                email: user.email,
+                uid: user.uid,
+                photo: user.photoURL
+            })
+        }
+        else {
+            commit('setUserDetails', {})
+        }
+    })
+}
