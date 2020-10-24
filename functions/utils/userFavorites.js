@@ -14,4 +14,22 @@ async function getFavoritesMap(uid) {
         })
 }
 
+async function addFavorite(uid, asteroidId) {
+
+    const mapToUpdate = {
+        favorites: {}
+    };
+
+    mapToUpdate.favorites[asteroidId] = true
+
+    return db.collection('users').doc(uid).set(mapToUpdate, { merge: true })
+        .then(() => {
+            return true
+        })
+        .catch(error => {
+            return error.message
+        })
+}
+
 exports.getFavoritesMap = getFavoritesMap
+exports.addFavorite = addFavorite
