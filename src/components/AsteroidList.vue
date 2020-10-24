@@ -6,15 +6,14 @@
         v-ripple
         v-for="(asteroid, index) in asteroidList"
         :key="asteroid.id"
-        @click="openAsteroidInformation(index)"
       >
-        <q-item-section>
+        <q-item-section @click="openAsteroidInformation(index)">
           <q-item-label>{{ asteroid.name }}</q-item-label>
           <q-item-label caption>ID: {{ asteroid.id }}</q-item-label>
         </q-item-section>
 
-        <q-item-section avatar v-if="userDetails.name">
-          <q-icon v-if="asteroid.isFavorite" color="red" name="favorite" />
+        <q-item-section avatar @click="favoriteHandler(asteroid.isFavorite, asteroid.id)" v-if="userDetails.name">
+          <q-icon v-if="asteroid.isFavorite"color="red" name="favorite" />
           <q-icon v-else color="red" name="favorite_border" />
         </q-item-section>
       </q-item>
@@ -45,7 +44,7 @@ export default {
       return {
       selectedAsteroid: null,
     isAsteroidSelected: false,
-      loaded: true
+      loaded: false
       }
   },
   computed: {
@@ -64,10 +63,15 @@ export default {
     "asteroid-card": require("./AsteroidInformation.vue").default,
   },
   methods: {
-    ...mapActions('user', ['getFavorites']),
+    ...mapActions('user', ['getFavorites', 'addFavorite']),
       openAsteroidInformation(index) {
           this.selectedAsteroid = this.asteroidList[index];
           this.isAsteroidSelected = true;
+      },
+      favoriteHandler(isFavorite, id) {
+        if (!isFavorite) {
+          this.addFavorite({ asteroidId: id })
+        }
       }
   }
 };
