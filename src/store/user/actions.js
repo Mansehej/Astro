@@ -67,3 +67,15 @@ export function getFavorites({}, payload) {
           return {}
         });
 }
+
+export function addFavorite({ }, payload) {
+    const favoritesGetter = firebaseFunctions.httpsCallable("addFavorite");
+    console.log("Adding");
+    return favoritesGetter({ asteroidId: payload.asteroidId })
+        .then(function (result) {
+            return { success: true };
+        })
+        .catch(function (error) {
+            return { success: false, message: error.message }
+        })
+}
