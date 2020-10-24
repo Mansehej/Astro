@@ -15,7 +15,8 @@
           Quasar App
         </q-toolbar-title>
 
-        <div>Quasar v{{ $q.version }}</div>
+        <q-btn flat v-if="!userDetails.uid" to="/auth">Login</q-btn>
+        <q-btn flat v-else no-caps @click="logoutUser">Logout<br/>{{userDetails.name}}</q-btn>
       </q-toolbar>
     </q-header>
 
@@ -48,6 +49,7 @@
 
 <script>
 import EssentialLink from 'components/EssentialLink.vue'
+import {mapState, mapActions} from 'vuex'
 
 const linksData = [
   {
@@ -102,6 +104,12 @@ export default {
       leftDrawerOpen: false,
       essentialLinks: linksData
     }
+  },
+  computed: {
+    ...mapState('user', ['userDetails'])
+  },
+  methods: {
+    ...mapActions('user', ['logoutUser'])
   }
 }
 </script>
