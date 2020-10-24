@@ -1,4 +1,4 @@
-import { firebaseAuth } from "boot/firebase";
+import { firebaseAuth, firebaseFunctions } from "boot/firebase";
 
 export function registerUser({ }, payload) {
     return firebaseAuth
@@ -55,4 +55,15 @@ export function handleAuthStateChanged({ commit }, payload) {
             this.$router.replace('/auth')
         }
     })
+}
+
+export function getFavorites({}, payload) {
+    const favoritesGetter = firebaseFunctions.httpsCallable("getFavorites");
+    return favoritesGetter({})
+        .then(function (result) {
+         return result.data;
+        })
+        .catch((error) => {
+          return {}
+        });
 }
