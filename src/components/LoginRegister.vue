@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import { firebaseAuth } from "boot/firebase";
+import { mapActions } from "vuex";
 
 export default {
   props: ["tab"],
@@ -51,38 +51,19 @@ export default {
     };
   },
   methods: {
-    submitForm() {
+    ...mapActions("user", ["registerUser", "loginUser"]),
+    async submitForm() {
       if (this.tab == "login") {
-        this.login();
+        const loginResponse = await this.loginUser(this.formData);
+        if (!loginResponse.success) {
+          this.formData.errorText = loginResponse.message;
+        }
       } else if (this.tab == "register") {
-        this.signUp();
+        const registerResponse = await this.registerUser(this.formData);
+        if (!registerResponse.success) {
+          this.formData.errorText = registerResponse.message;
+        }
       }
-    },
-    login() {
-      firebaseAuth
-        .signInWithEmailAndPassword(this.formData.email, this.formData.password)
-        .catch((error) => {
-          if (error.code == "auth/user-not-found") {
-            this.formData.errorText = "User does not exist!";
-          } else if (error.code == "auth/wrong-password") {
-            this.formData.errorText = "Incorrect password!";
-          }
-        });
-    },
-    signUp() {
-      firebaseAuth
-        .createUserWithEmailAndPassword(
-          this.formData.email,
-          this.formData.password
-        )
-        .then((response) => {
-          response.user.updateProfile({
-            displayName: this.formData.name,
-          });
-        })
-        .catch((error) => {
-          this.formData.errorText = error.message;
-        });
     },
   },
 };
