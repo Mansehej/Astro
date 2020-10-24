@@ -9,8 +9,8 @@ export default {
   methods: {
     ...mapActions("user", ["handleAuthStateChanged"]),
   },
-  mounted() {
-    this.handleAuthStateChanged();
+  async mounted() {
+    await this.handleAuthStateChanged();
   },
 };
 </script>
