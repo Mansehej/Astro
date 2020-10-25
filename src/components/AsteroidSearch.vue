@@ -37,10 +37,10 @@ export default {
     "asteroid-card": require("../components/AsteroidInformation.vue").default,
   },
   props: {
-      dense: {
-          type: Boolean,
-          default: false
-      }
+    dense: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -58,16 +58,21 @@ export default {
         this.error = "Please enter asteroid ID";
         return;
       }
+      this.$q.loading.show({
+        message: "Looking for asteroids",
+      });
       var searchFunction = firebaseFunctions.httpsCallable("searchById");
       searchFunction({ id: this.asteroidId })
         .then(function (result) {
           vm.asteroidInformation = result.data[0];
           vm.isResultGenerated = true;
+          this.$q.loading.hide();
         })
         .catch((error) => {
           if (error.code == "not-found") {
             this.error = "Asteroid ID not found";
           }
+          this.$q.loading.hide();
         });
     },
   },
