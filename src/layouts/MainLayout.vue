@@ -14,7 +14,7 @@
         <q-btn flat no-caps no-wrap class="q-ml-xs" to="/">
           <q-icon :name="logo" color="red" size="28px" />
           <q-toolbar-title shrink class="text-weight-bold">
-            Asteronomy
+            Astroneomy
           </q-toolbar-title>
         </q-btn>
 
