@@ -1,11 +1,13 @@
 const functions = require('firebase-functions');
 const { getFromNeoWs, extractFields, mergeNeoDates, sortByApproach, getFavoritesMap, addFavorite, removeFavorite } = require("./utils");
 
+const FIREBASE_REGION = "europe-west1"
+
 // Used HTTP Callable functions instead of HTTP requests
 // This is because all middleware (CORS), serialization, deserialization will be automatically handled
 // And the only app that is going to call these functions is our firebase app.
 
-exports.browse = functions.region('europe-west1').https.onCall(async (data, context) => {
+exports.browse = functions.region(FIREBASE_REGION).https.onCall(async (data, context) => {
 
     try {
         const listOfNeos = await getFromNeoWs('/neo/browse', { size: 10 })
@@ -18,7 +20,7 @@ exports.browse = functions.region('europe-west1').https.onCall(async (data, cont
 
 });
 
-exports.dateRange = functions.region('europe-west1').https.onCall(async (data, context) => {
+exports.dateRange = functions.region(FIREBASE_REGION).https.onCall(async (data, context) => {
 
     const startDate = data.startDate
     const endDate = data.endDate
@@ -36,7 +38,7 @@ exports.dateRange = functions.region('europe-west1').https.onCall(async (data, c
 
 })
 
-exports.searchById = functions.region('europe-west1').https.onCall(async (data, context) => {
+exports.searchById = functions.region(FIREBASE_REGION).https.onCall(async (data, context) => {
 
     const id = data.id
 
@@ -51,7 +53,7 @@ exports.searchById = functions.region('europe-west1').https.onCall(async (data, 
 
 })
 
-exports.getFavorites = functions.region('europe-west1').https.onCall(async (data, context) => {
+exports.getFavorites = functions.region(FIREBASE_REGION).https.onCall(async (data, context) => {
     
     if (!context.auth.uid) {
         throw new functions.https.HttpsError("unauthenticated");
@@ -61,7 +63,7 @@ exports.getFavorites = functions.region('europe-west1').https.onCall(async (data
 
 })
 
-exports.addFavorite = functions.region('europe-west1').https.onCall(async (data, context) => {
+exports.addFavorite = functions.region(FIREBASE_REGION).https.onCall(async (data, context) => {
 
     if (!context.auth.uid) {
         throw new functions.https.HttpsError("unauthenticated");
@@ -75,7 +77,7 @@ exports.addFavorite = functions.region('europe-west1').https.onCall(async (data,
     
 })
 
-exports.removeFavorite = functions.region('europe-west1').https.onCall(async (data, context) => {
+exports.removeFavorite = functions.region(FIREBASE_REGION).https.onCall(async (data, context) => {
 
     if (!context.auth.uid) {
         throw new functions.https.HttpsError("unauthenticated");
