@@ -1,7 +1,7 @@
 <template>
   <q-page class="flex flex-center">
     <div class="column">
-      <h2>Asteronomy</h2>
+      <h2>Astro<b>neo</b>my</h2>
       <asteroid-search />
       <div class="tex-subtitle text-center">OR</div>
       <div class="row justify-center q-mt-md">
