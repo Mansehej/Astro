@@ -26,7 +26,7 @@
     <q-card-section>
       <div class="column items-center text-capitalize">
         <div class="text-bold">Estimated Diameter</div>
-        <div>
+        <div class="text-center">
           {{ estimatedDiameter[units.diameter].estimated_diameter_min }}
           {{ units.diameter }} -
           {{ estimatedDiameter[units.diameter].estimated_diameter_max }}
@@ -75,6 +75,7 @@
                       active-color="info"
                       class="text-grey-6"
                     >
+                    <div class="row">
                       <q-tab
                         name="kilometers_per_second"
                         label="Kilometers Per Second"
@@ -84,6 +85,7 @@
                         label="Kilometers Per Hour"
                       />
                       <q-tab name="miles_per_hour" label="Miles Per Hour" />
+                    </div>
                     </q-tabs>
                   </div>
                 </q-card-section>
@@ -104,10 +106,12 @@
                       active-color="info"
                       class="text-grey-6"
                     >
+                    <div class="row">
                       <q-tab name="astronomical" label="Astronomical" />
                       <q-tab name="lunar" label="Lunar" />
                       <q-tab name="kilometers" label="Kilometers" />
                       <q-tab name="miles" label="Miles" />
+                    </div>
                     </q-tabs>
                   </div>
                 </q-card-section>
@@ -121,8 +125,7 @@
 </template>
 
 <script>
-
-import { mapActions, mapState } from 'vuex'
+import { mapActions, mapState } from "vuex";
 
 export default {
   props: {
@@ -139,7 +142,7 @@ export default {
         velocity: "kilometers_per_second",
         distance: "kilometers",
       },
-      isFavorite: false
+      isFavorite: false,
     };
   },
   async created() {
