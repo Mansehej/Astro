@@ -37,22 +37,31 @@ export default {
       this.populateFromDateRange(query.from, query.to);
     }
     this.query = query
+    console.log(this.error)
   },
   methods: {
     populateFromBrowse() {
+      this.$q.loading.show({
+        message: "Rummaging around some wormholes",
+      });
       const vm = this;
       const browseFunction = firebaseFunctions.httpsCallable("browse");
       browseFunction({})
         .then(function (result) {
           vm.asteroidList = result.data;
           vm.loaded = true;
+          vm.$q.loading.hide();
         })
         .catch((error) => {
-          this.error = true;
-          this.errorMessage = "There was an error. Please try again later.";
+          vm.error = true;
+          vm.errorMessage = "There was an error. Please try again later.";
+          vm.$q.loading.hide();
         });
     },
     populateFromDateRange(startDate, endDate) {
+      this.$q.loading.show({
+        message: "Preparing for asteroid time travel",
+      });
       this.isDateBrowse = true
       const vm = this;
       const dateFunction = firebaseFunctions.httpsCallable("dateRange");
@@ -60,16 +69,19 @@ export default {
       if (dateDifference > 7) {
         this.errorMessage = "Dates cannot be more than 7 days apart.";
         this.error = true;
+        this.$q.loading.hide();
         return;
       }
       dateFunction({ startDate, endDate })
         .then(function (result) {
           vm.asteroidList = result.data;
           vm.loaded = true;
+          vm.$q.loading.hide();
         })
         .catch((error) => {
-          this.error = true;
-          this.errorMessage = "There was an error. Please try again later.";
+          vm.error = true;
+          vm.errorMessage = "There was an error. Please try again later.";
+          vm.$q.loading.hide();
         });
     },
     calculateDateDifference(startDate, endDate) {
