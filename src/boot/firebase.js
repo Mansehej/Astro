@@ -12,7 +12,7 @@ let firebaseAuth;
 
 try {
   firebaseApp = firebase.initializeApp(firebaseConfig);
-  firebaseFunctions = firebaseApp.functions();
+  firebaseFunctions = firebaseApp.functions("europe-west1");
   firebaseAuth = firebaseApp.auth();
 } catch (error) {
   console.error(error);
