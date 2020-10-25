@@ -5,7 +5,7 @@ const { getFromNeoWs, extractFields, mergeNeoDates, sortByApproach, getFavorites
 // This is because all middleware (CORS), serialization, deserialization will be automatically handled
 // And the only app that is going to call these functions is our firebase app.
 
-exports.browse = functions.https.onCall(async (data, context) => {
+exports.browse = functions.region('europe-west1').https.onCall(async (data, context) => {
 
     try {
         const listOfNeos = await getFromNeoWs('/neo/browse', { size: 10 })
@@ -18,7 +18,7 @@ exports.browse = functions.https.onCall(async (data, context) => {
 
 });
 
-exports.dateRange = functions.https.onCall(async (data, context) => {
+exports.dateRange = functions.region('europe-west1').https.onCall(async (data, context) => {
 
     const startDate = data.startDate
     const endDate = data.endDate
@@ -36,7 +36,7 @@ exports.dateRange = functions.https.onCall(async (data, context) => {
 
 })
 
-exports.searchById = functions.https.onCall(async (data, context) => {
+exports.searchById = functions.region('europe-west1').https.onCall(async (data, context) => {
 
     const id = data.id
 
@@ -51,7 +51,7 @@ exports.searchById = functions.https.onCall(async (data, context) => {
 
 })
 
-exports.getFavorites = functions.https.onCall(async (data, context) => {
+exports.getFavorites = functions.region('europe-west1').https.onCall(async (data, context) => {
     
     if (!context.auth.uid) {
         throw new functions.https.HttpsError("unauthenticated");
@@ -61,7 +61,7 @@ exports.getFavorites = functions.https.onCall(async (data, context) => {
 
 })
 
-exports.addFavorite = functions.https.onCall(async (data, context) => {
+exports.addFavorite = functions.region('europe-west1').https.onCall(async (data, context) => {
 
     if (!context.auth.uid) {
         throw new functions.https.HttpsError("unauthenticated");
@@ -75,7 +75,7 @@ exports.addFavorite = functions.https.onCall(async (data, context) => {
     
 })
 
-exports.removeFavorite = functions.https.onCall(async (data, context) => {
+exports.removeFavorite = functions.region('europe-west1').https.onCall(async (data, context) => {
 
     if (!context.auth.uid) {
         throw new functions.https.HttpsError("unauthenticated");
