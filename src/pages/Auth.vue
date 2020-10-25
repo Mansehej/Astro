@@ -1,13 +1,13 @@
 <template>
   <q-page class="flex flex-center">
-    <q-card class="rounded-borders">
-      <q-card-section class="bg-primary text-white">
-        <div class="text-h6 text-capitalize">{{ tab }}</div>
+    <q-card class="rounded-borders bg-black">
+      <q-card-section>
+        <h2 class="text-center text-capitalize q-mb-sm">{{ tab }}</h2>
       </q-card-section>
 
       <q-separator inset />
 
-      <q-tab-panels v-model="tab" animated>
+      <q-tab-panels v-model="tab" animated class="bg-black">
         <q-tab-panel name="login">
           <login-register :tab="tab" />
         </q-tab-panel>
