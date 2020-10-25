@@ -79,14 +79,21 @@ export default {
       if (asteroidId == "") {
         return;
       }
+          this.$q.loading.show({
+        message: "Getting the asteroid you love",
+    });
       var searchFunction = firebaseFunctions.httpsCallable("searchById");
       searchFunction({ id: asteroidId })
         .then(function (result) {
           vm.selectedAsteroid = result.data[0];
           vm.selectedAsteroid.index = index;
           vm.isAsteroidSelected = true;
+              vm.$q.loading.hide()
+
         })
         .catch((error) => {
+              vm.$q.loading.hide()
+
           return;
         });
     },
