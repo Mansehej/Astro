@@ -37,7 +37,6 @@ export default {
       this.populateFromDateRange(query.from, query.to);
     }
     this.query = query
-    console.log(this.error)
   },
   methods: {
     populateFromBrowse() {
