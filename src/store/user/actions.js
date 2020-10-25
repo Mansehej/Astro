@@ -1,6 +1,6 @@
 import { firebaseAuth, firebaseFunctions } from "boot/firebase";
 
-export function registerUser({ }, payload) {
+export function registerUser({ commit }, payload) {
     return firebaseAuth
         .createUserWithEmailAndPassword(
             payload.email,
@@ -10,6 +10,7 @@ export function registerUser({ }, payload) {
             response.user.updateProfile({
                 displayName: payload.name,
             });
+            commit('addToUserDetails', {key: name, value: payload.name})
             return { success: true }
         })
         .catch((error) => {
@@ -36,6 +37,7 @@ export function loginUser({ }, payload) {
 
 
 export function logoutUser({}, payload) {
+    this.$router.replace('/auth')
     return firebaseAuth.signOut();
 }
 
@@ -54,7 +56,6 @@ export function handleAuthStateChanged({ commit, dispatch }, payload) {
         else {
             commit('setUserDetails', {})
             commit('setFavorites', {})
-            this.$router.replace('/auth')
         }
     })
 }
