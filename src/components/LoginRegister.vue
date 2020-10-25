@@ -25,7 +25,6 @@
     <br />
     <div class="row justify-center">
       <q-btn
-        rounded
         class="q-px-md"
         color="primary"
         type="submit"
